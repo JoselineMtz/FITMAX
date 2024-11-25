@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Recepcionista - FitMax</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <img src="IMAGENES/logfit.png" alt="Logo FitMax" class="logo">
+    <nav>
+        <a href="javascript:void(0)" onclick="logout()" class="logout-button">Cerrar Sesión</a>
+    </nav>
+</header>
+
+<section class="container">
+    <h2>Bienvenido al Panel de Recepcionista</h2>
+
+    <!-- Sección de gestión de clientes -->
+    <section id="clientes">
+        <h3>Gestión de Clientes</h3>
+        <div class="client-list">
+            <div class="service-card">
+                <h4>Cliente 1</h4>
+                <p>RUT: 12345678-9</p>
+                <p>Teléfono: 123456789</p>
+                <button onclick="viewClient('Cliente 1')">Ver Detalles</button>
+            </div>
+            <div class="service-card">
+                <h4>Cliente 2</h4>
+                <p>RUT: 98765432-1</p>
+                <p>Teléfono: 987654321</p>
+                <button onclick="viewClient('Cliente 2')">Ver Detalles</button>
+            </div>
+            <!-- Agregar más clientes según sea necesario -->
+        </div>
+        <button onclick="registerClient()">Registrar Nuevo Cliente</button>
+    </section>
+
+    <!-- Sección de clases del día -->
+    <section id="clases-dia">
+        <h3>Clases del Día</h3>
+        <div class="class-schedule">
+            <div class="service-card">
+                <h4>Yoga</h4>
+                <p>Horario: Lunes y Miércoles - 18:00 a 19:00</p>
+            </div>
+            <div class="service-card">
+                <h4>CrossFit</h4>
+                <p>Horario: Martes y Jueves - 19:00 a 20:00</p>
+            </div>
+            <!-- Agregar más clases del día según sea necesario -->
+        </div>
+    </section>
+</section>
+
+<footer class="footer">
+    <p>&copy; 2024 FitMax - Todos los derechos reservados</p>
+</footer>
+
+<script>
+    function logout() {
+        // Lógica para cerrar sesión
+        alert("Sesión cerrada.");
+        window.location.href = "index.html"; // Redirige a la página de login
+    }
+
+    function viewClient(clientName) {
+        alert("Detalles de " + clientName);
+        // Aquí iría la lógica para mostrar detalles del cliente
+    }
+
+    function registerClient() {
+        alert("Redirigiendo a la página de registro de cliente.");
+        // Aquí iría la lógica para redirigir al formulario de registro de cliente
+        window.location.href = 'registro-cliente.html'; // Cambiar a la URL del formulario de registro de cliente
+    }
+</script>
+
+</body>
+</html>

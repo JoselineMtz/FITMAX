@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - FitMax</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos adicionales para los botones de las secciones */
+        .report-options button,
+        .class-list button,
+        .user-list button,
+        .add-user-button {
+            margin: 10px 0; /* Separación vertical entre los botones */
+            width: 100%; /* Hacer que los botones ocupen todo el ancho */
+            padding: 10px;
+            background-color: #4caf50; /* Color de fondo verde */
+            color: white; /* Color del texto blanco */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .report-options button:hover,
+        .class-list button:hover,
+        .user-list button:hover,
+        .add-user-button:hover {
+            background-color: #45a049; /* Color al pasar el mouse */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="IMAGENES/logfit.png" alt="Logo FitMax" class="logo">
+    <nav>
+        <a href="javascript:void(0)" onclick="logout()" class="logout-button">Cerrar Sesión</a>
+    </nav>
+</header>
+
+<section class="container">
+    <h2>Bienvenido al Panel de Administrador</h2>
+
+    <!-- Contenedor para las alertas -->
+    <div id="alert-container"></div>
+
+    <!-- Sección de gestión de usuarios -->
+    <section id="usuarios">
+        <h3>Gestión de Usuarios</h3>
+        <div class="user-list">
+            <div class="service-card">
+                <h4>Usuario 1</h4>
+                <p>RUT: 12345678-9</p>
+                <p>Estado: Activo</p>
+                <button onclick="deactivateUser('Usuario 1')">Desactivar Usuario</button>
+            </div>
+            <div class="service-card">
+                <h4>Usuario 2</h4>
+                <p>RUT: 98765432-1</p>
+                <p>Estado: Activo</p>
+                <button onclick="deactivateUser('Usuario 2')">Desactivar Usuario</button>
+            </div>
+            <!-- Agregar más usuarios según sea necesario -->
+        </div>
+        <button class="add-user-button" onclick="addUser()">Agregar Usuario</button>
+    </section>
+
+    <!-- Sección de gestión de clases -->
+    <section id="clases">
+        <h3>Gestión de Clases</h3>
+        <div class="class-list">
+            <div class="service-card">
+                <h4>Yoga</h4>
+                <p>Horario: Lunes y Miércoles - 18:00 a 19:00</p>
+                <button onclick="editClass('Yoga')">Editar Clase</button>
+                <button onclick="deleteClass('Yoga')">Eliminar Clase</button>
+            </div>
+            <div class="service-card">
+                <h4>CrossFit</h4>
+                <p>Horario: Martes y Jueves - 19:00 a 20:00</p>
+                <button onclick="editClass('CrossFit')">Editar Clase</button>
+                <button onclick="deleteClass('CrossFit')">Eliminar Clase</button>
+            </div>
+            <!-- Agregar más clases según sea necesario -->
+        </div>
+    </section>
+
+    <!-- Sección de reportes -->
+    <section id="reportes">
+        <h3>Generar e Imprimir Reportes</h3>
+        <div class="report-options">
+            <button onclick="generateReport()">Generar Reporte de Usuarios</button>
+            <button onclick="generateClassReport()">Generar Reporte de Clases</button>
+            <button onclick="printReports()">Imprimir Reportes</button>
+        </div>
+    </section>
+</section>
+
+<footer class="footer">
+    <p>&copy; 2024 FitMax - Todos los derechos reservados</p>
+</footer>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function showBootstrapAlert(message, alertType = 'success') {
+        const alertPlaceholder = document.getElementById('alert-container');
+        const alertElement = document.createElement('div');
+        alertElement.className = `alert alert-${alertType} alert-dismissible fade show`;
+        alertElement.role = 'alert';
+        alertElement.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        alertPlaceholder.append(alertElement);
+
+        setTimeout(() => {
+            const bootstrapAlert = bootstrap.Alert.getOrCreateInstance(alertElement);
+            bootstrapAlert.close();
+        }, 4000); // La alerta desaparecerá después de 4 segundos
+    }
+
+    function logout() {
+        showBootstrapAlert("Sesión cerrada.", "info");
+        window.location.href = "index.html"; // Redirige a la página de login
+    }
+
+    function deactivateUser(userName) {
+        let confirmation = confirm("¿Estás seguro de que deseas desactivar a " + userName + "?");
+        if (confirmation) {
+            showBootstrapAlert(userName + " ha sido desactivado.", "warning");
+            // Aquí iría la lógica para desactivar al usuario
+        } else {
+            showBootstrapAlert("Acción cancelada.", "secondary");
+        }
+    }
+
+    function deleteClass(className) {
+        let confirmation = confirm("¿Estás seguro de que deseas eliminar la clase " + className + "?");
+        if (confirmation) {
+            showBootstrapAlert("Clase " + className + " eliminada.", "danger");
+            // Aquí iría la lógica para eliminar la clase
+        } else {
+            showBootstrapAlert("Acción cancelada.", "secondary");
+        }
+    }
+
+    function addUser() {
+        let userName = prompt("Introduce el nombre del nuevo usuario:");
+        if (userName) {
+            showBootstrapAlert("Usuario " + userName + " ha sido agregado.", "success");
+            // Aquí iría la lógica para agregar al usuario
+        } else {
+            showBootstrapAlert("No se ha agregado ningún usuario.", "secondary");
+        }
+    }
+
+    function editClass(className) {
+        showBootstrapAlert("Clase " + className + " editada.", "primary");
+        // Aquí iría la lógica para editar la clase
+    }
+
+    function generateReport() {
+        showBootstrapAlert("Reporte de usuarios generado.", "success");
+        // Aquí iría la lógica para generar un reporte de usuarios
+    }
+
+    function generateClassReport() {
+        showBootstrapAlert("Reporte de clases generado.", "success");
+        // Aquí iría la lógica para generar un reporte de clases
+    }
+
+    function printReports() {
+        showBootstrapAlert("Preparando reportes para impresión.", "info");
+        // Aquí iría la lógica para preparar los reportes para impresión
+    }
+</script>
+
+</body>
+</html>

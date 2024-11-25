@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Membresías - FitMax</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+
+<header>
+    <img src="IMAGENES/logfit.png" alt="Logo FitMax" class="logo">
+    <nav>
+        <a href="javascript:void(0)" onclick="logout()" class="logout-button">Cerrar Sesión</a>
+        <a href="panelcliente.html" class="back-button">Volver al Panel de Cliente</a>
+    </nav>
+</header>
+   
+<section class="container">
+    <h2>Gestionar Membresías</h2>
+      
+    <!-- Alertas de Bootstrap -->
+    <div id="alertContainer"></div>
+    <div class="membership-container">
+        <!-- Las membresías serán insertadas aquí dinámicamente -->
+    </div>
+
+    <!-- Alertas de Bootstrap -->
+    <div id="alertContainer"></div>
+</section>
+
+<footer class="footer">
+    <p>&copy; 2024 FitMax - Todos los derechos reservados</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Función para manejar el logout y redirigir al inicio de sesión
+    function logout() {
+        window.location.href = "index.html";
+    }
+
+    // Función para manejar la cancelación de membresía
+    function confirmCancelMembership(membershipName) {
+        const userConfirmed = confirm("¿Está seguro de que desea cancelar la " + membershipName + "?");
+        if (userConfirmed) {
+            cancelMembership(membershipName);
+        }
+    }
+
+    // Función para cancelar una membresía
+    function cancelMembership(membershipName) {
+        const memberships = JSON.parse(localStorage.getItem("memberships"));
+        const updatedMemberships = memberships.map((membership) => {
+            if (membership.name === membershipName) {
+                membership.active = false;
+            }
+            return membership;
+        });
+        localStorage.setItem("memberships", JSON.stringify(updatedMemberships));
+        showAlert(membershipName + " cancelada con éxito.", "success");
+        renderMemberships();
+    }
+
+    // Función para adquirir una membresía
+    function confirmAcquireMembership(membershipName) {
+        const userConfirmed = confirm("¿Está seguro de que desea adquirir la " + membershipName + "?");
+        if (userConfirmed) {
+            acquireMembership(membershipName);
+        }
+    }
+
+    // Función para adquirir una membresía
+    function acquireMembership(membershipName) {
+        const memberships = JSON.parse(localStorage.getItem("memberships"));
+        const updatedMemberships = memberships.map((membership) => {
+            if (membership.name === membershipName) {
+                membership.active = true;
+            }
+            return membership;
+        });
+        localStorage.setItem("memberships", JSON.stringify(updatedMemberships));
+        showAlert(membershipName + " adquirida con éxito.", "success");
+        renderMemberships();
+    }
+
+    // Función para renderizar las membresías
+    function renderMemberships() {
+        const memberships = JSON.parse(localStorage.getItem("memberships"));
+        const container = document.querySelector(".membership-container");
+        container.innerHTML = ""; // Limpiar contenido previo
+
+        memberships.forEach((membership) => {
+            const membershipCard = document.createElement("div");
+            membershipCard.className = `membership-card ${membership.active ? "active" : ""}`;
+            membershipCard.innerHTML = `
+                <h3>${membership.name}</h3>
+                <p>Vigencia: ${membership.duration}</p>
+                ${
+                    membership.active
+                        ? `<p>Estado: Activa</p>
+                           <button class="cancel-membership" onclick="confirmCancelMembership('${membership.name}')">Cancelar Membresía</button>`
+                        : `<p>Precio: ${membership.price}</p>
+                           <button class="choose-membership" onclick="confirmAcquireMembership('${membership.name}')">Quiero esta Membresía</button>`
+                }
+            `;
+            container.appendChild(membershipCard);
+        });
+    }
+
+    // Función para mostrar alertas
+    function showAlert(message, type) {
+        const alertHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`;
+        const alertContainer = document.getElementById("alertContainer");
+        alertContainer.innerHTML = alertHTML;
+
+        // Limpiar la alerta después de 3 segundos
+        setTimeout(() => {
+            alertContainer.innerHTML = "";
+        }, 3000);
+    }
+
+    // Inicializar las membresías si es necesario
+    document.addEventListener("DOMContentLoaded", () => {
+        if (!localStorage.getItem("memberships")) {
+            const memberships = [
+                { name: "Membresía Premium", duration: "12 meses", price: "$40.000", active: true },
+                { name: "Membresía Básica", duration: "6 meses", price: "$30.000", active: false },
+                { name: "Membresía VIP", duration: "24 meses", price: "$50.000", active: false }
+            ];
+            localStorage.setItem("memberships", JSON.stringify(memberships));
+        }
+        renderMemberships(); // Renderizar las membresías al cargar
+    });
+</script>
+
+</body>
+</html>

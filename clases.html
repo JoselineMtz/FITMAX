@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Clases - FitMax</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+
+<header>
+    <img src="IMAGENES/logfit.png" alt="Logo FitMax" class="logo">
+    <nav>
+        <a href="javascript:void(0)" onclick="logout()" class="logout-button">Cerrar Sesión</a>
+        <a href="panelcliente.html" class="back-button">Volver al Panel de Cliente</a>
+    </nav>
+</header>
+
+<section class="container">
+    <h2>Gestionar Clases</h2>
+
+    <!-- Contenedor para alertas -->
+    <div id="alertContainer"></div>
+
+    <!-- Sección de clases del día -->
+    <section id="clases-del-dia" class="membership-container">
+        <h3>Clases del Día</h3>
+        <div class="membership-card">
+            <h4>Yoga</h4>
+            <p>Horario: Lunes y Miércoles - 18:00 a 19:00</p>
+            <p>Instructor: María López</p>
+            <button class="cancel-membership" onclick="confirmCancelClass('Yoga')">Cancelar Clase</button>
+        </div>
+        <div class="membership-card">
+            <h4>CrossFit</h4>
+            <p>Horario: Martes y Jueves - 19:00 a 20:00</p>
+            <p>Instructor: Juan Pérez</p>
+            <button class="cancel-membership" onclick="confirmCancelClass('CrossFit')">Cancelar Clase</button>
+        </div>
+        <!-- Agrega más clases del día dinámicamente -->
+    </section>
+
+    <!-- Sección de clases disponibles -->
+    <section id="clases-disponibles" class="membership-container">
+        <h3>Clases Disponibles</h3>
+        <div class="membership-card">
+            <h4>Zumba</h4>
+            <p>Horario: Viernes - 17:00 a 18:00</p>
+            <p>Instructor: Ana Torres</p>
+            <button class="choose-membership" onclick="confirmReserveClass('Zumba')">Reservar Clase</button>
+        </div>
+        <div class="membership-card">
+            <h4>Pilates</h4>
+            <p>Horario: Sábado - 10:00 a 11:00</p>
+            <p>Instructor: Laura Gómez</p>
+            <button class="choose-membership" onclick="confirmReserveClass('Pilates')">Reservar Clase</button>
+        </div>
+        <!-- Agrega más clases disponibles dinámicamente -->
+    </section>
+</section>
+
+<footer class="footer">
+    <p>&copy; 2024 FitMax - Todos los derechos reservados</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function logout() {
+        // Redirigir al inicio de sesión
+        window.location.href = "login.html";
+    }
+
+    function confirmCancelClass(className) {
+        const userConfirmed = confirm("¿Está seguro de que desea cancelar la clase de " + className + "?");
+        if (userConfirmed) {
+            cancelClass(className);
+        }
+    }
+
+    function cancelClass(className) {
+        showAlert(className + " cancelada con éxito.", "success");
+        // Aquí iría la lógica para cancelar la clase en el sistema
+    }
+
+    function confirmReserveClass(className) {
+        const userConfirmed = confirm("¿Está seguro de que desea reservar la clase de " + className + "?");
+        if (userConfirmed) {
+            reserveClass(className);
+        }
+    }
+
+    function reserveClass(className) {
+        showAlert(className + " reservada con éxito.", "success");
+        // Aquí iría la lógica para reservar la clase en el sistema
+    }
+
+    function showAlert(message, type) {
+        const alertHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`;
+        document.getElementById('alertContainer').innerHTML = alertHTML;
+    }
+</script>
+
+</body>
+</html>
