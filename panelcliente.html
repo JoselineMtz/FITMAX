@@ -14,16 +14,19 @@
             <a href="javascript:void(0)" onclick="logout()" class="logout-button">Cerrar Sesión</a>
         </nav>
     </header>
-    
-
+<style>
+    body {
+        background-color: black;
+    }
+</style>
 <section class="container">
     <h2>Bienvenido al Panel de Cliente</h2>
-
+<br>
     <!-- Sección de imagen -->
     <section id="imagen">
         <img src="IMAGENES/gym1.jpg" alt="Imagen Principal" class="img-fluid mb-4">
     </section>
-
+<br>
     <!-- Sección de membresías -->
     <section id="membresias">
         <h3>Mis Membresías</h3>
@@ -40,9 +43,11 @@
             </div>
             <!-- Puedes agregar más membresías dinámicamente -->
         </div>
+        <br>
         <button onclick="gestionarMembresias()">Gestionar Membresías</button>
+        <br><br>
     </section>
-
+<br>
     <!-- Sección de clases disponibles -->
     <section id="clases">
         <h3>Clases Disponibles</h3>
@@ -64,7 +69,10 @@
             </div>
             <!-- Agregar más clases dinámicamente -->
         </div>
+        <br>
         <button onclick="reservarClases()">Reservar Clases</button>
+        <br>
+        <br>
     </section>
 </section>
 
